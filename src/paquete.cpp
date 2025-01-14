@@ -1,17 +1,28 @@
 #include "../Include/paquete.hpp"
 
-Paquete::Paquete(int id, std::array<int, 2> origen, std::array<int, 2> destino, int numeroOrden, int tamanioPagina)
-    : id(id), origen(origen), destino(destino), numeroOrden(numeroOrden), tamanioPagina(tamanioPagina) {}
+/* 
+* Constructor de la clase Paquete
+* Inicializa los miembros privados con los valores pasados como argumento 
+* Post : se hace una lista de inicializacopn de miembros
+* para inicializar los atributos privados de la clase.
+*/
+Paquete::Paquete(int id, int origen[], int destino[], int numeroOrden, int tamanioPagina)
+    : id(id), numeroOrden(numeroOrden), tamanioPagina(tamanioPagina) {
+    this->origen[0] = origen[0];
+    this->origen[1] = origen[1];
+    this->destino[0] = destino[0];
+    this->destino[1] = destino[1];
+}
 
 int Paquete::getId() const {
     return id;
 }
 
-const std::array<int, 2>& Paquete::getOrigen() const {
+const int* Paquete::getOrigen() const {
     return origen;
 }
 
-const std::array<int, 2>& Paquete::getDestino() const {
+const int* Paquete::getDestino() const {
     return destino;
 }
 
