@@ -1,4 +1,4 @@
-#include "../Include/paquete.hpp"
+#include "../Include/paquete.h"
 
 /* 
 * Constructor de la clase Paquete
