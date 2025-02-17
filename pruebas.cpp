@@ -2,6 +2,8 @@
 #include <vector>
 #include <queue>
 #include <random>
+#include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
@@ -28,99 +30,104 @@ public:
     }
 };
 
+
 // Representa un terminal
 class Terminal {
-public:
-    int id;
-    int routerConectado;
-    queue<Paquete> paquetesRecibidos;
-
-    Terminal(int _id, int _router) : id(_id), routerConectado(_router) {}
-
-    void recibirPaquete(const Paquete& paquete) {
-        paquetesRecibidos.push(paquete);
-
-        // Verificar si la página está completa
-        if (esPaginaCompleta(paquete.paginaId)) {
-            reconstruirPagina(paquete.paginaId);
+    public:
+        int id;
+        int routerConectado;
+        queue<Pagina> paginasRecibidas; // Ahora almacena páginas en lugar de paquetes
+    
+        Terminal(int _id, int _router) : id(_id), routerConectado(_router) {}
+    
+        void recibirPagina(const Pagina& pagina) {
+            paginasRecibidas.push(pagina);
+            cout << "Terminal " << id << " ha recibido la página " << pagina.id << " completa.\n";
         }
-    }
-
-    bool esPaginaCompleta(int paginaId) {
-        return paquetesRecibidos.size() == 5; // Asumimos 5 paquetes por página
-    }
-
-    void reconstruirPagina(int paginaId) {
-        cout << "Terminal " << id << " ha reconstruido la página " << paginaId << " con los siguientes datos:\n";
-
-        while (!paquetesRecibidos.empty()) {
-            cout << paquetesRecibidos.front().contenido << " ";
-            paquetesRecibidos.pop();
-        }
-        cout << endl;
-    }
 };
-
+    
 // Representa un router que maneja paquetes y conexiones
 class Router {
-public:
-    int id;
-    vector<queue<Paquete>> colasPorVecino; // Cada cola corresponde a un vecino
-    vector<int> tablaDeEnrutamiento; // Índices que apuntan a vecinos
-    vector<int> cargaPorVecino; // Carga de cada vecino
-    vector<int> vecinos; // Lista de IDs de los vecinos
-    queue<Paquete> colaIntercalada; // Nueva cola con paquetes de distintas páginas
-    int anchoDeBanda = 2;
-
-    Router(int _id) : id(_id) {}
-
-    void agregarVecino(int vecino) {
-        vecinos.push_back(vecino);
-        colasPorVecino.emplace_back();
-        cargaPorVecino.push_back(0);
-    }
-
-    void actualizarCarga() {
-        for (size_t i = 0; i < vecinos.size(); i++) {
-            cargaPorVecino[i] = colasPorVecino[i].size();
+    public:
+        int id;
+        vector<queue<Paquete>> colasPorVecino; // Cada cola corresponde a un vecino
+        vector<int> tablaDeEnrutamiento; // Índices que apuntan a vecinos
+        vector<int> cargaPorVecino; // Carga de cada vecino
+        vector<int> vecinos; // Lista de IDs de los vecinos
+        unordered_map<int, vector<Paquete>> paquetesPorPagina; // Almacena paquetes en espera de reconstrucción
+        queue<Paquete> colaIntercalada; // Nueva cola con paquetes de distintas páginas
+        int anchoDeBanda = 2;
+    
+        Router(int _id) : id(_id) {}
+    
+        void agregarVecino(int vecino) {
+            vecinos.push_back(vecino);
+            colasPorVecino.emplace_back();
+            cargaPorVecino.push_back(0);
         }
-    }
-
-    void establecerRuta(int destino) {
-        if (!vecinos.empty()) {
-            int mejorOpcion = 0;
-            for (size_t i = 1; i < vecinos.size(); i++) {
-                if (cargaPorVecino[i] < cargaPorVecino[mejorOpcion]) {
-                    mejorOpcion = i;
+    
+        void actualizarCarga() {
+            for (size_t i = 0; i < vecinos.size(); i++) {
+                cargaPorVecino[i] = colasPorVecino[i].size();
+            }
+        }
+    
+        void establecerRuta(int destino) {
+            if (!vecinos.empty()) {
+                int mejorOpcion = 0;
+                for (size_t i = 1; i < vecinos.size(); i++) {
+                    if (cargaPorVecino[i] < cargaPorVecino[mejorOpcion]) {
+                        mejorOpcion = i;
+                    }
+                }
+                if (tablaDeEnrutamiento.size() <= (size_t)destino) {
+                    tablaDeEnrutamiento.resize(destino + 1, -1);
+                }
+                tablaDeEnrutamiento[destino] = mejorOpcion;
+            }
+        }
+        void recibirPaquete(const Paquete& paquete, Terminal& terminal) {
+            //el primer if lo que hace es checkear si el destino se encuentra en mi tabla de enrutamiento, si lo esta
+            // enotonces no me pertenece y lo encolo en su respectivo router
+            if (paquete.destino < (int)tablaDeEnrutamiento.size() && tablaDeEnrutamiento[paquete.destino] != -1) {
+                colaIntercalada.push(paquete); // Encolamos en la nueva estructura intercalada
+            } else {
+                            // Verificar si la página está completa y reconstruirla
+                if (paquetesPorPagina[paquete.paginaId].size() == 5) { // Suponemos 5 paquetes por página
+                    reconstruirPagina(paquete.paginaId, terminal);
                 }
             }
-            if (tablaDeEnrutamiento.size() <= (size_t)destino) {
-                tablaDeEnrutamiento.resize(destino + 1, -1);
+        }
+        
+
+    
+        void reconstruirPagina(int paginaId, Terminal& terminal) {
+            cout << "Router " << id << " ha reconstruido la página " << paginaId << " con los siguientes datos:\n";
+            
+            // Ordenar paquetes antes de ensamblar la página (cambiar logica)
+            sort(paquetesPorPagina[paginaId].begin(), paquetesPorPagina[paginaId].end(),
+                 [](const Paquete& a, const Paquete& b) {
+                     return a.id < b.id;
+                 });
+            
+            Pagina pagina(paginaId, 5, paquetesPorPagina[paginaId][0].origen, paquetesPorPagina[paginaId][0].destino);
+            pagina.paquetes = paquetesPorPagina[paginaId];
+            terminal.recibirPagina(pagina);
+            paquetesPorPagina.erase(paginaId);
+        }
+    
+        void procesarPaquetes() {
+            actualizarCarga();
+            int enviados = 0;
+            while (!colaIntercalada.empty() && enviados < anchoDeBanda) {
+                Paquete paquete = colaIntercalada.front();
+                colaIntercalada.pop();
+                int destino = tablaDeEnrutamiento[paquete.destino];
+                colasPorVecino[destino].push(paquete);
+                cout << "Router " << id << " enviando paquete " << paquete.id << " (pagina " << paquete.paginaId << ") a Router " << vecinos[destino] << endl;
+                enviados++;
             }
-            tablaDeEnrutamiento[destino] = mejorOpcion;
         }
-    }
-
-    void recibirPaquete(const Paquete& paquete, Terminal& terminal) {
-        if (paquete.destino < (int)tablaDeEnrutamiento.size() && tablaDeEnrutamiento[paquete.destino] != -1) {
-            colaIntercalada.push(paquete); // Encolamos en la nueva estructura intercalada
-        } else {
-            terminal.recibirPaquete(paquete);
-        }
-    }
-
-    void procesarPaquetes() {
-        actualizarCarga();
-        int enviados = 0;
-        while (!colaIntercalada.empty() && enviados < anchoDeBanda) {
-            Paquete paquete = colaIntercalada.front();
-            colaIntercalada.pop();
-            int destino = tablaDeEnrutamiento[paquete.destino];
-            colasPorVecino[destino].push(paquete);
-            cout << "Router " << id << " enviando paquete " << paquete.id << " (pagina " << paquete.paginaId << ") a Router " << vecinos[destino] << endl;
-            enviados++;
-        }
-    }
 };
 
 // Administrador del sistema
