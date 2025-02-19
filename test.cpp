@@ -6,6 +6,8 @@
 
 using namespace std;
 
+
+
 // Definimos la estructura Paquete
 struct Paquete {
     int id;
