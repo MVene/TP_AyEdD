@@ -9,18 +9,22 @@ Router::Router(int id_router, int cantidad_terminales) {
     this->id_router = id_router;
     // Genero de forma aleatoria la cantidad de terminales
     cout << "Router " << id_router << " con " << cantidad_terminales << " terminales.\n";
+    // Agrego las terminales al router
     for (int i = 0; i < cantidad_terminales; i++) {
+        // Almacenar el id_router y el id_terminal como un par
+        pair<int, int> id_terminal = {id_router, i};
         // Convertimos los id's enteros a string y los concatenamos
         string concatenado = to_string(id_router) + to_string(i);
         // Convertimos el resultado de nuevo a int
-        int id_terminal = stoi(concatenado);
-        Terminal term(id_terminal, id_router);
-        terminales.insert({id_terminal, term});
-        cout << "Terminal " << id_terminal << " conectada al Router " << id_router << ".\n";
+        id_terminal_completo = stoi(concatenado);
+        Terminal term(id_terminal);
+        terminales.insert({id_terminal_completo, term});
+        cout << "Terminal " << concatenado << " conectada al Router " << id_router << ".\n";
     }
     redRouters.push_back(this);
 }
 
+//vecino = id_router
 void Router::agregarVecino(int vecino) {
     // Genero de forma aleatoria un ancho de banda
     random_device BW;
@@ -44,36 +48,36 @@ void Router::actualizarCarga() {
 
 void Router::establecerRuta(int destino) {
     if (!vecinos.empty()) {
-
         actualizarCarga();
 
-        int mejorOpcion = 0;
-        cout << "\n\n";
-        for (size_t i = 1; i < vecinos.size(); i++) {
-            /**
-             * Comparar la carga relativa de cada vecino para determinar la mejor opción de enrutamiento
-             * La carga relativa se calcula dividiendo la carga del vecino por su ancho de banda
-             * Si la carga relativa del vecino actual es menor o igual que la del vecino actualmente considerado como la mejor opción,
-             * entonces el vecino actual se convierte en la nueva mejor opción
-             */
-        
-            if ((cargaPorVecino[i] / vecinos[i]) <= (cargaPorVecino[mejorOpcion] / vecinos[mejorOpcion])) {
-                mejorOpcion = i;
+        int mejorOpcion = -1;
+        double menorCargaRelativa = std::numeric_limits<double>::max();
+
+        for (const auto& [vecino, anchoDeBanda] : vecinos) {
+            int carga = colasPorVecino[vecino].size();
+            double cargaRelativa = (anchoDeBanda == 0) ? std::numeric_limits<double>::max() : static_cast<double>(carga) / anchoDeBanda;
+            
+            if (cargaRelativa < menorCargaRelativa) {
+                menorCargaRelativa = cargaRelativa;
+                mejorOpcion = vecino;
             }
-            //cout << "Carga relativa del vecino " << i << ": " << (cargaPorVecino[i] / vecinos[i]) << "\n";
-            //cout << "CargaPorVecino: " << cargaPorVecino[i] << "\n";
-            //cout << "Ancho de banda: " << vecinos[i] << "\n";
+
+            cout << "Carga relativa del vecino " << vecino << ": " << cargaRelativa << "\n";
+            cout << "CargaPorVecino: " << carga << "\n";
+            cout << "Ancho de banda: " << anchoDeBanda << "\n";
         }
+
         cout << "\n\n";
-        /* 
-         * Verifico el tamaño de la tabla de enrutamiento y si entra el numero de destino,
-         * si no entra, redimensiono la tabla de enrutamiento
-         */
-        if (tablaDeEnrutamiento.size() <= (size_t)destino) {
-            tablaDeEnrutamiento.resize(destino + 1, -1);
+
+        if (mejorOpcion != -1) {
+            if (tablaDeEnrutamiento.size() <= static_cast<size_t>(destino)) {
+                tablaDeEnrutamiento.resize(destino + 1, -1);
+            }
+            //dividir el destino por id t y idr
+            tablaDeEnrutamiento[destino] = mejorOpcion;
+        } else {
+            cerr << "Error: No se pudo establecer una ruta para el destino " << destino << "\n";
         }
-        // Establezco la mejor opcion para el destino
-        tablaDeEnrutamiento[destino] = mejorOpcion;
     }
 }
 
@@ -83,28 +87,28 @@ void Router::recibirPagina(Terminal& terminal) {
         Pagina pagina = terminal.paginasEnviadas.front();
         terminal.paginasEnviadas.pop();
 
-        cout << "Router " << id_router << " recibiendo página " << pagina.id << " desde Terminal " << terminal.id << ".\n";
+        cout << "Router " << id_router << " recibiendo página " << pagina.id << " desde Terminal " << terminal.idCompleto << ".\n";
 
         // Dividir la página en paquetes y agregarlos a la cola intercalada
         for (const Paquete& paquete : pagina.paquetes) {
             colaIntercalada.push(paquete);
-            cout << "Paquete " << paquete.id << " (Página " << paquete.paginaId << ") agregado a la cola intercalada.\n";
+            cout << "Paquete " << paquete.getId() << " (Página " << paquete.getPaginaId() << ") agregado a la cola intercalada.\n";
         }
     }
 }
 
 void Router::recibirPaquete(const Paquete& paquete, Terminal& terminal) {
-    cout << "Router " << id_router << " recibiendo paquete " << paquete.id << " (pagina " << paquete.paginaId << ") desde Router " << paquete.origen << ".\n";
+    cout << "Router " << id_router << " recibiendo paquete " << paquete.getId() << " (pagina " << paquete.getPaginaId() << ") desde Router " << paquete.getOrigenRouter() << ".\n";
     // Almacena el paquete recibido en su página correspondiente.
-    paquetesPorPagina[paquete.paginaId].push_back(paquete);
+    paquetesPorPagina[paquete.getPaginaId()].push_back(paquete);
 
     /**
      * Si la cantidad de paquetes recibidos de cierta pagina
      * es igual al tamaño original de la misma pagina, entonces
      * se reconstruye dicha pagina.
      */
-    if (paquetesPorPagina[paquete.paginaId].size() == terminal.tamanioPaginas[paquete.paginaId]) {
-        reconstruirPagina(paquete.paginaId, terminal);
+    if (paquetesPorPagina[paquete.getPaginaId()].size() == terminal.tamanioPaginas[paquete.getPaginaId()]) {
+        reconstruirPagina(paquete.getPaginaId(), terminal);
     }
 }
 
@@ -114,7 +118,7 @@ void Router::reconstruirPagina(int paginaId, Terminal& terminal) {
     vector<Paquete>& paquetes = paquetesPorPagina[paginaId];
     for (size_t i = 0; i < paquetes.size(); i++) {
         for (size_t j = 0; j < paquetes.size() - i - 1; j++) {
-            if (paquetes[j].id > paquetes[j + 1].id) {
+            if (paquetes[j].getId() > paquetes[j + 1].getId()) {
                 swap(paquetes[j], paquetes[j + 1]);
             }
         }
@@ -123,7 +127,7 @@ void Router::reconstruirPagina(int paginaId, Terminal& terminal) {
      * Creo la pagina con los atributos correspondientes, lo envio a la terminal de destino
      * y elimino la pagina del mapa de paquetes por pagina.
      */
-    Pagina pagina(paginaId, terminal.tamanioPaginas[paginaId], paquetesPorPagina[paginaId][0].origen, paquetesPorPagina[paginaId][0].destino);
+    Pagina pagina(paginaId, terminal.tamanioPaginas[paginaId], paquetesPorPagina[paginaId][0].getOrigen(), paquetesPorPagina[paginaId][0].getDestino());
     pagina.paquetes = paquetesPorPagina[paginaId];
     terminal.recibirPagina(pagina);
     paquetesPorPagina.erase(paginaId);
@@ -158,18 +162,19 @@ void Router::procesarPaquetes() {
     
     while (!colaIntercalada.empty()) {
         Paquete paquete = colaIntercalada.front();
-
-        if (paquete.destino == id_router) {
-            recibirPaquete(paquete, terminales[id_terminal]);
+       
+        // Me fijo si el destino del paquete es el router actual
+        if (paquete.getDestinoRouter() == id_router) {
+            recibirPaquete(paquete, terminales[paquete.getDestinoTerminal()]);
         } else {
             // Establezco la ruta para el paquete
-            establecerRuta(paquete.destino);
+            establecerRuta(paquete.getDestinoRouter());
 
             /**
              * Encolo el paquete en la cola correspondiente al vecino
              * al que se debe enviar el paquete.
              */
-            int dest = tablaDeEnrutamiento[paquete.destino];
+            int dest = tablaDeEnrutamiento[paquete.getDestinoRouter()];
             colasPorVecino[dest].push(paquete);
         }
         colaIntercalada.pop();

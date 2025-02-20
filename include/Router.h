@@ -27,7 +27,7 @@ public:
     unordered_map<int, Terminal> terminales; // Almacena las terminales conectadas al router con su id
     int anchoDeBanda;
     int id_router;
-    int id_terminal;
+    int id_terminal_completo;
     int id_new;
     int ciclos = 0;
     int numCiclosTotales = 0;

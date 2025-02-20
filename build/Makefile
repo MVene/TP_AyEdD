@@ -177,6 +177,30 @@ src/Pagina.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TP_AyEdD.dir/build.make CMakeFiles/TP_AyEdD.dir/src/Pagina.cpp.s
 .PHONY : src/Pagina.cpp.s
 
+src/Paquete.o: src/Paquete.cpp.o
+.PHONY : src/Paquete.o
+
+# target to build an object file
+src/Paquete.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TP_AyEdD.dir/build.make CMakeFiles/TP_AyEdD.dir/src/Paquete.cpp.o
+.PHONY : src/Paquete.cpp.o
+
+src/Paquete.i: src/Paquete.cpp.i
+.PHONY : src/Paquete.i
+
+# target to preprocess a source file
+src/Paquete.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TP_AyEdD.dir/build.make CMakeFiles/TP_AyEdD.dir/src/Paquete.cpp.i
+.PHONY : src/Paquete.cpp.i
+
+src/Paquete.s: src/Paquete.cpp.s
+.PHONY : src/Paquete.s
+
+# target to generate assembly for a file
+src/Paquete.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TP_AyEdD.dir/build.make CMakeFiles/TP_AyEdD.dir/src/Paquete.cpp.s
+.PHONY : src/Paquete.cpp.s
+
 src/Router.o: src/Router.cpp.o
 .PHONY : src/Router.o
 
@@ -264,6 +288,9 @@ help:
 	@echo "... src/Pagina.o"
 	@echo "... src/Pagina.i"
 	@echo "... src/Pagina.s"
+	@echo "... src/Paquete.o"
+	@echo "... src/Paquete.i"
+	@echo "... src/Paquete.s"
 	@echo "... src/Router.o"
 	@echo "... src/Router.i"
 	@echo "... src/Router.s"

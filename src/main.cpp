@@ -24,7 +24,7 @@ int main() {
     uniform_int_distribution<> distVecinos(1, cantidadRouters-1); //ver las cotas
     int cantidadVecinos = distVecinos(gen);
 
-    uniform_int_distribution<> distIDvecino(0, cantidadRouters - 1);
+    uniform_int_distribution<> distIDvecino(0, cantidadRouters-1);
 
     cout << "Configuracion de la red\n";
     cout << "Cantidad de routers: " << cantidadRouters << "\n";
@@ -60,7 +60,7 @@ int main() {
     for (Router &router : routers) {
         for (auto &pair : router.terminales) {
             Terminal &terminal = pair.second;
-            terminal.generarYEnviarPaginas(cantidadRouters); // Pasar la cantidad de routers
+            terminal.generarYEnviarPaginas(cantidadRouters,cantidadTerminales); // Pasar la cantidad de routers
             router.recibirPagina(terminal);
         }
     }

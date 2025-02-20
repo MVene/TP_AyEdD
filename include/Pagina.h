@@ -13,7 +13,7 @@ class Pagina {
         vector<Paquete> paquetes;
 
         // Constructor
-        Pagina(int _id, int cantidadPaquetes, int origen, int destino);
+        Pagina(int _id, int cantidadPaquetes, pair<int,int> origen, pair<int,int> destino);
 };
 
 #endif // PAGINA_H

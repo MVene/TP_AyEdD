@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/TP_AyEdD.dir/src/Administrador.cpp.o.d"
   "CMakeFiles/TP_AyEdD.dir/src/Pagina.cpp.o"
   "CMakeFiles/TP_AyEdD.dir/src/Pagina.cpp.o.d"
+  "CMakeFiles/TP_AyEdD.dir/src/Paquete.cpp.o"
+  "CMakeFiles/TP_AyEdD.dir/src/Paquete.cpp.o.d"
   "CMakeFiles/TP_AyEdD.dir/src/Router.cpp.o"
   "CMakeFiles/TP_AyEdD.dir/src/Router.cpp.o.d"
   "CMakeFiles/TP_AyEdD.dir/src/Terminal.cpp.o"

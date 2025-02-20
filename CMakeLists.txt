@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.10)
 project(TP_AyEdD)
 
 # Establecer el estándar de C++
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Incluir directorios
@@ -17,6 +17,7 @@ set(SOURCES
     src/Terminal.cpp
     src/Pagina.cpp
     src/Administrador.cpp
+    src/Paquete.cpp
 )
 
 # Agregar la opción de depuración
