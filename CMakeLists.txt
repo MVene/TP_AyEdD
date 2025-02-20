@@ -19,5 +19,9 @@ set(SOURCES
     src/Administrador.cpp
 )
 
+# Agregar la opción de depuración
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+
+
 # Crear el ejecutable
 add_executable(TP_AyEdD ${SOURCES})

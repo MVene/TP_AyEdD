@@ -3,7 +3,7 @@
 Terminal::Terminal(int id, int router) {
     this->id = id;
     routerConectado = router;
-    generarYEnviarPaginas();
+    
 }
 
 // Recibo la pagina, la muestro por pantalla y la guardo en la cola de paginas recibidas
@@ -13,12 +13,12 @@ void Terminal::recibirPagina(const Pagina& pagina) {
 }
 
 // Genera paginas aleatoriamente y las enviara a un router
-void Terminal::generarYEnviarPaginas() {
+void Terminal::generarYEnviarPaginas(int cantidadRouters) {
     random_device rd;
     mt19937 gen(rd());
     uniform_int_distribution<> distPaginas(1, 5);
     uniform_int_distribution<> distPaquetes(3, 10);
-    uniform_int_distribution<> distDestino(0, 255); // Hasta 256 routers
+    uniform_int_distribution<> distDestino(0, cantidadRouters); // Hasta 256 routers
 
     // Cantidad de paginas a enviar generado aleatoriamente
     int cantidadPaginas = distPaginas(gen);

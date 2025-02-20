@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <unordered_set>
 
 #include "../include/Router.h"
 #include "../include/Terminal.h"
@@ -35,18 +36,21 @@ int main() {
     vector<Router> routers;
     for (int i = 0; i < cantidadRouters; i++) {
         routers.emplace_back(i, cantidadTerminales);
+        //cout << "Router " << i << " creado\n";
     }
 
     cout << "Enlazando vecinos...\n";
     // Agregar vecinos a los routers
     for (Router &router : routers) {
+        unordered_set<int> vecinosEnlazados; // Mantener un registro de los vecinos ya enlazados
         for (int i = 0; i < cantidadVecinos; i++) {
             int IDvecino = distIDvecino(gen);
-            // Asegurarse de que el router no se conecte a sí mismo
-            while (IDvecino == router.id_router) {
+            // Asegurarse de que el router no se conecte a sí mismo y no se conecte dos veces al mismo vecino
+            while (IDvecino == router.id_router || vecinosEnlazados.find(IDvecino) != vecinosEnlazados.end()) {
                 IDvecino = distIDvecino(gen);
             }
             router.agregarVecino(IDvecino);
+            vecinosEnlazados.insert(IDvecino); // Registrar el vecino enlazado
             cout << "Router " << router.id_router << " conectado con router " << IDvecino << "\n";
         }
     }
@@ -56,6 +60,7 @@ int main() {
     for (Router &router : routers) {
         for (auto &pair : router.terminales) {
             Terminal &terminal = pair.second;
+            terminal.generarYEnviarPaginas(cantidadRouters); // Pasar la cantidad de routers
             router.recibirPagina(terminal);
         }
     }

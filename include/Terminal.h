@@ -26,7 +26,7 @@ public:
     void recibirPagina(const Pagina& pagina);
 
     // Genera paginas aleatoriamente y las enviara a un router
-    void generarYEnviarPaginas();
+    void generarYEnviarPaginas(int cantidadRouters);
 };
 
 #endif // TERMINAL_H

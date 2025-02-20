@@ -18,10 +18,10 @@ using namespace std;
 class Router {
 public:
     int id;
-    vector<queue<Paquete>> colasPorVecino; // Cada cola corresponde a un vecino
+    unordered_map<int, queue<Paquete>> colasPorVecino; // Cada cola corresponde a un vecino con su id
     vector<int> tablaDeEnrutamiento; // Cada posición corresponde a un destino y su valor es la mejor opcion
     vector<int> cargaPorVecino; // Carga de cada vecino
-    vector<vector<int>> vecinos; // Lista de cada vecino con su ancho de banda
+    unordered_map<int, int> vecinos; // Lista de vecinos con su id y ancho de banda 
     unordered_map<int, vector<Paquete>> paquetesPorPagina; // Almacena paquetes en espera de reconstrucción
     queue<Paquete> colaIntercalada; // Nueva cola con paquetes de distintas páginas
     unordered_map<int, Terminal> terminales; // Almacena las terminales conectadas al router con su id
@@ -57,7 +57,7 @@ public:
     void procesarPaquetes();
 
     // Método que envía un paquete a través del router
-    void enviarPaquete(const Paquete& paquete, Terminal& terminal);
+    void enviarPaquete();
 };
 
 #endif // ROUTER_H

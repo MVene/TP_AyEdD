@@ -26,13 +26,13 @@ void Router::agregarVecino(int vecino) {
     random_device BW;
     mt19937 gen(BW());
     uniform_int_distribution<> distAnchoDeBanda(1, 20);
-    anchoDeBanda = distAnchoDeBanda(gen);
+    anchoDeBanda = 3;
 
     // Agrego a mi vector vecinos el vecino correspondiente con su ancho de banda
-    vecinos.push_back({vecino, anchoDeBanda});
+    vecinos.insert({vecino, anchoDeBanda});
 
     // Agrego una cola por vecino y un contador de carga por vecino
-    colasPorVecino.emplace_back();
+    colasPorVecino[vecino] = queue<Paquete>();
     cargaPorVecino.push_back(0);
 }
 
@@ -44,8 +44,11 @@ void Router::actualizarCarga() {
 
 void Router::establecerRuta(int destino) {
     if (!vecinos.empty()) {
-        int mejorOpcion = 0;
 
+        actualizarCarga();
+
+        int mejorOpcion = 0;
+        cout << "\n\n";
         for (size_t i = 1; i < vecinos.size(); i++) {
             /**
              * Comparar la carga relativa de cada vecino para determinar la mejor opción de enrutamiento
@@ -53,10 +56,15 @@ void Router::establecerRuta(int destino) {
              * Si la carga relativa del vecino actual es menor o igual que la del vecino actualmente considerado como la mejor opción,
              * entonces el vecino actual se convierte en la nueva mejor opción
              */
-            if ((cargaPorVecino[i] / vecinos[i][1]) <= cargaPorVecino[mejorOpcion] / vecinos[mejorOpcion][1]) {
+        
+            if ((cargaPorVecino[i] / vecinos[i]) <= (cargaPorVecino[mejorOpcion] / vecinos[mejorOpcion])) {
                 mejorOpcion = i;
             }
+            //cout << "Carga relativa del vecino " << i << ": " << (cargaPorVecino[i] / vecinos[i]) << "\n";
+            //cout << "CargaPorVecino: " << cargaPorVecino[i] << "\n";
+            //cout << "Ancho de banda: " << vecinos[i] << "\n";
         }
+        cout << "\n\n";
         /* 
          * Verifico el tamaño de la tabla de enrutamiento y si entra el numero de destino,
          * si no entra, redimensiono la tabla de enrutamiento
@@ -147,49 +155,47 @@ void Router::procesarPaquetes() {
      * Si el destino del paquete es el router actual, se recibe el paquete.
      * Si no, se envia el paquete al router correspondiente.
      */
+    
     while (!colaIntercalada.empty()) {
         Paquete paquete = colaIntercalada.front();
-        colaIntercalada.pop();
 
         if (paquete.destino == id_router) {
             recibirPaquete(paquete, terminales[id_terminal]);
         } else {
-            
-            enviarPaquete(paquete, terminales[id_terminal]);
+            // Establezco la ruta para el paquete
+            establecerRuta(paquete.destino);
+
+            /**
+             * Encolo el paquete en la cola correspondiente al vecino
+             * al que se debe enviar el paquete.
+             */
+            int dest = tablaDeEnrutamiento[paquete.destino];
+            colasPorVecino[dest].push(paquete);
         }
+        colaIntercalada.pop();
     }
+    enviarPaquete();
 }
 
-void Router::enviarPaquete(const Paquete& paquete, Terminal& terminal) {
-    // Establezco la ruta para el paquete
-    establecerRuta(paquete.destino);
-
-    /**
-     * Encolo el paquete en la cola correspondiente al vecino
-     * al que se debe enviar el paquete.
-     */
-    int dest = tablaDeEnrutamiento[paquete.destino];
-    colasPorVecino[dest].push(paquete);
+void Router::enviarPaquete() {
 
     /**
      * Mientras la cola del vecino no este vacia y la cantidad de enviados 
      * sea menor al ancho de banda de ese destino, se envian
-     * los paquetes.
+     * los paquetes. 
      */
-    int enviados = 0;
-    while (!colasPorVecino[dest].empty() && enviados < vecinos[dest][1]) {
-        enviados++;
-        colasPorVecino[dest].pop();
-        cout << "Router " << id_router << " enviando paquete " << paquete.id << " (pagina " << paquete.paginaId << ") a Router " << vecinos[dest][0] << endl;
-    }
-    ciclos++;
-    Administrador admin;
-    if (ciclos == 2) {
-        numCiclosTotales++;
-        
-        cout << "Ciclos: " << numCiclosTotales << endl;
-        cout << "Del router: " << id_router << endl;
-        admin.recalcularRutas(redRouters);
-        ciclos = 0;
-    }
+    //vecinos.push_back({vecino, anchoDeBanda})
+    
+        for(auto& colas : colasPorVecino){
+            for(Router* router : redRouters){
+                    if(colas.first == router->id_router ){
+                        while(!colas.second.empty()){
+                            router->colaIntercalada.push(colas.second.front());
+                            colas.second.pop();
+                            cout << "Router " << id_router << " enviando paquete a Router " << router->id_router << ".\n";
+                        }
+                     }
+            }
+        }
+   
 }
