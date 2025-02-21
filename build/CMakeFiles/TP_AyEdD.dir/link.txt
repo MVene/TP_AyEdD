@@ -1,1 +1,0 @@
-/usr/bin/c++  -g CMakeFiles/TP_AyEdD.dir/src/main.cpp.o CMakeFiles/TP_AyEdD.dir/src/Router.cpp.o CMakeFiles/TP_AyEdD.dir/src/Terminal.cpp.o CMakeFiles/TP_AyEdD.dir/src/Pagina.cpp.o CMakeFiles/TP_AyEdD.dir/src/Administrador.cpp.o CMakeFiles/TP_AyEdD.dir/src/Paquete.cpp.o -o TP_AyEdD 

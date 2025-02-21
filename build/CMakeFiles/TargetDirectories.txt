@@ -1,3 +1,0 @@
-/home/mvene/Repositorios/Ayed/TP_AyEdD/build/CMakeFiles/TP_AyEdD.dir
-/home/mvene/Repositorios/Ayed/TP_AyEdD/build/CMakeFiles/edit_cache.dir
-/home/mvene/Repositorios/Ayed/TP_AyEdD/build/CMakeFiles/rebuild_cache.dir

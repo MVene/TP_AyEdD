@@ -162,7 +162,7 @@ void Administrador::establecerRuta(Router& router, int destino) {
         int mejorOpcion = -1;
         double menorCargaRelativa = std::numeric_limits<double>::max(); // Es un valor muy grande para que carga relativa sea menor
         
-        cout << "Estableciendo ruta para llegar al Router de destino " << destino << " desde el Router " << router.idR << "...\n";
+//        cout << "Estableciendo ruta para llegar al Router de destino " << destino << " desde el Router " << router.idR << "...\n";
 
         // Iterar sobre los vecinos del router
         for (const auto& [vecino, anchoDeBanda] : router.vecinos) {
@@ -172,7 +172,7 @@ void Administrador::establecerRuta(Router& router, int destino) {
                 int carga = router.colasPorVecino[vecino].size();
                 // Calcular la carga relativa
                 double cargaRelativa = (anchoDeBanda == 0) ? std::numeric_limits<double>::max() : static_cast<double>(carga) / anchoDeBanda;
-                cout << "Carga relativa para llegar al Router " << vecino << ": " << cargaRelativa << "\n";
+ //               cout << "Carga relativa para llegar al Router " << vecino << ": " << cargaRelativa << "\n";
                 // Si la carga relativa es menor que la menor carga relativa encontrada, actualizar la mejor opción
                 if (cargaRelativa <= menorCargaRelativa) {
                     menorCargaRelativa = cargaRelativa;
@@ -185,8 +185,6 @@ void Administrador::establecerRuta(Router& router, int destino) {
             }
         }
 
-        cout << "\n\n";
-
         // Si se encontró una mejor opción, actualizar la tabla de enrutamiento del router
         if (mejorOpcion != -1) {
             // Redimensionar la tabla de enrutamiento si es necesario
@@ -195,10 +193,12 @@ void Administrador::establecerRuta(Router& router, int destino) {
             }
             // Establecer la mejor opción en la tabla de enrutamiento
             router.tablaDeEnrutamiento[destino] = mejorOpcion;
-             cout << "Mejor opción para el destino Router " << destino << " es el Router vecino " << mejorOpcion <<  "\n";
-        } else {
+            } else {
             // Si no se pudo establecer una ruta, imprimir un mensaje de error
             cerr << "Error: No se pudo establecer una ruta para el destino " << destino << "\n";
         }
+        cout << "Mejor opción para el destino Router " << destino << " es el Router vecino " << mejorOpcion <<  "\n\n";
     }
+    
+        
 }
