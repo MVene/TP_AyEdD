@@ -4,7 +4,16 @@
 #include <string>
 using namespace std;
 
-// Representa un paquete de datos
+/**
+ * Clase que representa un paquete de datos que se envía de una terminal a otra.
+ * 
+* Atributos:
+ * @param id: Identificador único del paquete.
+ * @param origen: Par de enteros que representan el origen del paquete (router, terminal).
+ * @param destino: Par de enteros que representan el destino del paquete (router, terminal).
+ * @param contenido: String que representa los datos que se envían.
+ * @param paginaId: Identificador de la página a la que pertenece el paquete.
+ */
 class Paquete {
 public:
     // Constructor

@@ -2,11 +2,17 @@
 #define PAGINA_H
 
 #include <vector>
-#include "Paquete.h"  // Incluir el archivo de cabecera Paquete.h
+#include "Paquete.h" 
 
 using namespace std;
 
-// Representa una página dividida en paquetes
+/**
+ * Clase que representa una página, que contiene una cantidad de paquetes.
+ * 
+ * Atributos:
+ * @param id: Identificador de la página.
+ * @param paquetes: Vector de paquetes que contiene la página.
+ */
 class Pagina {
     public:
         int id;

@@ -2,8 +2,13 @@
 #include "../include/Terminal.h"
 #include "../include/Administrador.h"
 
-vector<Router*> Router::redRouters; // Definición de la variable estática
 
+/**
+ * Constructor de la clase Router.
+ * 
+ * @param id_router: id del router.
+ * @param cantidad_terminales: cantidad de terminales que se conectan al router.
+ */
 Router::Router(int id_router, int cantidad_terminales) {
     
     idR = id_router;
@@ -17,43 +22,59 @@ Router::Router(int id_router, int cantidad_terminales) {
         pair<int, int> id_terminal = {idR, i};
 
         // Convertimos los id's enteros a string y los concatenamos
-        string concatenado = to_string(idR) + to_string(i);
+        string concatenado_id_terminal = to_string(idR) + to_string(i);
 
         // Convertimos el resultado de nuevo a int
-        id_terminal_completo = stoi(concatenado);
+        id_terminal_completo = stoi(concatenado_id_terminal);
 
         // Creamos la terminal con el id_terminal_completo
         Terminal term(id_terminal);
         terminales.insert({id_terminal_completo, term});
         
-        cout << "Terminal " << concatenado << " conectada al Router " << idR << ".\n";
+        cout << "Terminal " << concatenado_id_terminal << " conectada al Router " << idR << ".\n";
     }
-    redRouters.push_back(this);
 }
 
-//vecino = idR
+
+/**
+ * Agregar un vecino al router.
+ * 
+ * @param vecinoR: id del router vecino.
+ * @param anchoDeBanda: ancho de banda de la conexion con mi vecino.
+ */
 void Router::agregarVecino(int vecinoR, int anchoDeBanda) {
 
     // Agrego a mi vector vecinos el vecino correspondiente con su ancho de banda
     vecinos.insert({vecinoR, anchoDeBanda});
 
-    // Agrego una cola por vecino y un contador de carga por vecino
-    colasPorVecino[vecinoR] = queue<Paquete>(); //la cola se encuentra vacia
-    cargaPorVecino[vecinoR] = 0; //carga = 0
+    // Agrego una cola por vecino y una carga por defecto
+    colasPorVecino[vecinoR] = queue<Paquete>(); 
+    cargaPorVecino[vecinoR] = 0; 
 
     cout<<"\n";
     cout<< "Router " << vecinoR << " agregado al Router " << idR << " como vecino. Con un ancho de banda de " << anchoDeBanda << ".\n";
 }
 
+/**
+ * Actualiza la carga de cada vecino.
+ */
 void Router::actualizarCarga() {
 
     for (const auto& pair : vecinos) {
+        /**
+         * Obtengo el id del vecino y le asigno la carga correspondiente
+         * carga correspondiente: tamaño de la cola de paquetes de dicho vecino.
+         **/ 
         int vecino = pair.first;
         cargaPorVecino[vecino] = colasPorVecino[vecino].size();
     }
 }
 
-// Recibo la pagina del terminal
+/**
+ * Método que recibe una página, la divide en paquetes y los coloca en la cola intercalada.
+ * 
+ * @param terminal: terminal que envía la página.
+ */
 void Router::recibirPagina(Terminal& terminal) {
     while (!terminal.paginasEnviadas.empty()) {
         // Se obtiene la primera pagina de la cola de paginas enviadas y se elimina de la cola
@@ -71,7 +92,12 @@ void Router::recibirPagina(Terminal& terminal) {
     }
 }
 
-//le paso el paquete y a la terminal donde lo quiero enviar
+/**
+ * Método que recibe un paquete, lo almacena en un mapa y verifica si la página está completa.
+ * 
+ * @param paquete: paquete recibido.
+ * @param terminal: terminal que envió el paquete.
+ */
 void Router::recibirPaquete(const Paquete& paquete, Terminal& terminal) {
     cout << "Router " << idR << " recibiendo paquete " << paquete.getId() << " (pagina " << paquete.getPaginaId() << ") desde Router " << paquete.getOrigenRouter() << ".\n";
     // Almacena el paquete recibido en su página correspondiente.
@@ -87,6 +113,12 @@ void Router::recibirPaquete(const Paquete& paquete, Terminal& terminal) {
     }
 }
 
+/**
+ * Método que reconstruye una página a partir de los paquetes recibidos.
+ * 
+ * @param paginaId: id de la página a reconstruir.
+ * @param terminal: terminal que envió la página.
+ */
 void Router::reconstruirPagina(int paginaId, Terminal& terminal) {
     cout << "Router " << idR << " ha reconstruido la página " << paginaId << " \n";
     // Ordenar paquetes antes de ensamblar la página usando algoritmo de burbuja
@@ -98,7 +130,7 @@ void Router::reconstruirPagina(int paginaId, Terminal& terminal) {
             }
         }
     }
-    
+
     /**
      * Creo la pagina con los atributos correspondientes, lo envio a la terminal de destino
      * y elimino la pagina del mapa de paquetes por pagina.

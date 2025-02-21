@@ -1,5 +1,9 @@
 #include "../include/Terminal.h"
-
+/**
+ * @brief Constructor de la clase Terminal
+ * 
+ * @param ip Par de enteros que representan la ip de la terminal
+ */
 Terminal::Terminal(pair<int,int> ip) {
     concatenado_id_terminal = to_string(ip.first) + to_string(ip.second);
     idCompleto = stoi(concatenado_id_terminal);
@@ -8,13 +12,23 @@ Terminal::Terminal(pair<int,int> ip) {
 }
 
 
-// Recibo la pagina, la muestro por pantalla y la guardo en la cola de paginas recibidas
+/**
+ * @brief Recibe una pagina recontruida y la almacena en la cola de paginas recibidas.
+ * 
+ * @param pagina Pagina recontruida
+ */
 void Terminal::recibirPagina(const Pagina& pagina) {
     paginasRecibidas.push(pagina);
     cout << "Terminal " << concatenado_id_terminal << " ha recibido la página " << pagina.id << " completa.\n";
 }
 
-// Genera paginas aleatoriamente y las enviara a un router
+/**
+ * @brief Genera paginas y las envia a los routers.
+ * 
+ * @param cantidadRouters Cantidad de routers en la red
+ * @param cantidadTerminales Cantidad de terminales en la red
+ * 
+ */
 void Terminal::generarYEnviarPaginas(int cantidadRouters, int cantidadTerminales) {
 
     random_device rd;
@@ -43,11 +57,11 @@ void Terminal::generarYEnviarPaginas(int cantidadRouters, int cantidadTerminales
         
         // Genero la cantidad de paquetes aleatoriamente
         int cantidadPaquetes = distPaquetes(gen);
+
         // Creo la pagina y la envio
         Pagina pagina(i, cantidadPaquetes, ip, destino);
-        
         cout << "Terminal " << concatenado_id_terminal << " generó la página " << i << " con " << cantidadPaquetes << " paquetes con destino a Router " << destino.first << " y Terminal " << destino.second << ".\n";
-        paginasEnviadas.push(pagina); // Agrego la paginas a enviar
+        paginasEnviadas.push(pagina); // Agrego la pagina a la cola de paginas enviadas
         tamanioPaginas[pagina.id] = cantidadPaquetes; // Almaceno el tamaño de la página
     }
     cout<<"\n";
