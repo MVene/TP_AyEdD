@@ -1,6 +1,7 @@
 CMakeFiles/TP_AyEdD.dir/src/Administrador.cpp.o: \
- /home/lujan/TP_AyEdD/src/Administrador.cpp /usr/include/stdc-predef.h \
- /home/lujan/TP_AyEdD/src/../include/Administrador.h \
+ /home/mvene/Repositorios/Ayed/TP_AyEdD/src/Administrador.cpp \
+ /usr/include/stdc-predef.h \
+ /home/mvene/Repositorios/Ayed/TP_AyEdD/src/../include/Administrador.h \
  /usr/include/c++/13/iostream /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
@@ -154,11 +155,11 @@ CMakeFiles/TP_AyEdD.dir/src/Administrador.cpp.o: \
  /usr/include/c++/13/bits/stl_vector.h \
  /usr/include/c++/13/bits/stl_bvector.h \
  /usr/include/c++/13/bits/vector.tcc \
- /home/lujan/TP_AyEdD/src/../include/Router.h /usr/include/c++/13/queue \
- /usr/include/c++/13/deque /usr/include/c++/13/bits/stl_deque.h \
- /usr/include/c++/13/bits/deque.tcc /usr/include/c++/13/bits/stl_heap.h \
- /usr/include/c++/13/bits/stl_queue.h /usr/include/c++/13/random \
- /usr/include/c++/13/cmath /usr/include/math.h \
+ /home/mvene/Repositorios/Ayed/TP_AyEdD/src/../include/Router.h \
+ /usr/include/c++/13/queue /usr/include/c++/13/deque \
+ /usr/include/c++/13/bits/stl_deque.h /usr/include/c++/13/bits/deque.tcc \
+ /usr/include/c++/13/bits/stl_heap.h /usr/include/c++/13/bits/stl_queue.h \
+ /usr/include/c++/13/random /usr/include/c++/13/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
@@ -203,7 +204,7 @@ CMakeFiles/TP_AyEdD.dir/src/Administrador.cpp.o: \
  /usr/include/c++/13/bits/enable_special_members.h \
  /usr/include/c++/13/bits/node_handle.h \
  /usr/include/c++/13/bits/erase_if.h \
- /home/lujan/TP_AyEdD/src/../include/Paquete.h \
- /home/lujan/TP_AyEdD/src/../include/Pagina.h \
- /home/lujan/TP_AyEdD/src/../include/Terminal.h \
- /home/lujan/TP_AyEdD/src/../include/Administrador.h
+ /home/mvene/Repositorios/Ayed/TP_AyEdD/src/../include/Paquete.h \
+ /home/mvene/Repositorios/Ayed/TP_AyEdD/src/../include/Pagina.h \
+ /home/mvene/Repositorios/Ayed/TP_AyEdD/src/../include/Terminal.h \
+ /home/mvene/Repositorios/Ayed/TP_AyEdD/src/../include/Administrador.h

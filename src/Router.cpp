@@ -27,9 +27,9 @@ Router::Router(int id_router, int cantidad_terminales) {
         // Convertimos el resultado de nuevo a int
         id_terminal_completo = stoi(concatenado_id_terminal);
 
-        // Creamos la terminal con el id_terminal_completo
+        // Creamos la terminal con el id_terminal
         Terminal term(id_terminal);
-        terminales.insert({id_terminal_completo, term});
+        terminales.insert({id_terminal.second, term});
         
         cout << "Terminal " << concatenado_id_terminal << " conectada al Router " << idR << ".\n";
     }
@@ -96,7 +96,7 @@ void Router::recibirPagina(Terminal& terminal) {
  * Método que recibe un paquete, lo almacena en un mapa y verifica si la página está completa.
  * 
  * @param paquete: paquete recibido.
- * @param terminal: terminal que envió el paquete.
+ * @param terminal: terminal donde quiero enviar el paquete.
  */
 void Router::recibirPaquete(const Paquete& paquete, Terminal& terminal) {
     cout << "Router " << idR << " recibiendo paquete " << paquete.getId() << " (pagina " << paquete.getPaginaId() << ") desde Router " << paquete.getOrigenRouter() << ".\n";
@@ -117,7 +117,7 @@ void Router::recibirPaquete(const Paquete& paquete, Terminal& terminal) {
  * Método que reconstruye una página a partir de los paquetes recibidos.
  * 
  * @param paginaId: id de la página a reconstruir.
- * @param terminal: terminal que envió la página.
+ * @param terminal: terminal donde quiero página.
  */
 void Router::reconstruirPagina(int paginaId, Terminal& terminal) {
     cout << "Router " << idR << " ha reconstruido la página " << paginaId << " \n";

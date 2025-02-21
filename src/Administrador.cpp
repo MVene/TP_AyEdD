@@ -42,39 +42,23 @@ void Administrador::procesarPaquetes(vector<Router>& routers){
     while (hayPaquetes) {
         cout << "Ciclo " << ciclo << ":\n";
 
-           // cout << "Administrador: Procesando paquetes...\n";
+           cout << "Administrador: Procesando paquetes...\n";
             cout << "\n";
-            /*for (const auto& router : routers) {
-                //imprimir tamaño de cada cola intercalada
-                cout << "Tamaño de la cola intercalada del Router " << router.idR << ": " << router.colaIntercalada.size() << "\n\n";
-            }*/
+
 
             for (auto& router : routers) {
-                cout << "///////////////////////////Proceso de paquetes del Router " << router.idR << "///////////////////////////\n";
+                cout << "****Proceso de paquetes del Router " << router.idR << "****\n\n";
                 
                 while(!router.colaIntercalada.empty()){
                     Paquete paquete = router.colaIntercalada.front();
                     router.colaIntercalada.pop();
                     
-                    /*if(paquete.getOrigenRouter()==router.idR){
-                        //veo a donde mandar el paquete
-                        //actualizo carga y busco rutay lo pongo en cola por vecino
-                        establecerRuta(router, paquete.getDestinoRouter());
-                        /**
-                        * Encolo el paquete en la cola correspondiente al vecino
-                        * al que se debe enviar el paquete.
-                        
-                        int dest = router.tablaDeEnrutamiento[paquete.getDestinoRouter()];
-                        router.colasPorVecino[dest].push(paquete);
-                        cout << "Calculo de ruta para paquete "<< paquete.getId() << " con destino a Router " << paquete.getDestinoRouter() << "\n";
-                    }else{*/
                         if(paquete.getDestinoRouter()==router.idR){
-                            //Agrego el paquete a mis paquetes para 
                             //luego fijarme si estan todos para recontruir pagina y enviarlo al terminal
                             router.recibirPaquete(paquete, router.terminales[paquete.getDestinoTerminal()]);
-                            //cout << "Paquete llegado a su destino para su reconstruccion\n";
+                            cout << "Paquete llegado a su destino para su reconstruccion\n";
                         }else{
-                            //lo mando a otro router
+                            
                             //actualizo carga y busco ruta y lo pongo en cola por vecino
                             establecerRuta(router, paquete.getDestinoRouter());
                             /**
@@ -83,35 +67,31 @@ void Administrador::procesarPaquetes(vector<Router>& routers){
                              */
                             int dest = router.tablaDeEnrutamiento[paquete.getDestinoRouter()];
                             router.colasPorVecino[dest].push(paquete);
-                            //cout << "Calculo de ruta para paquete "<< paquete.getId() << " con destino a " << paquete.getDestinoRouter() << " y origen en " << paquete.getOrigenRouter() << "\n";
+                            cout << "Calculo de ruta para paquete "<< paquete.getId() << " con destino a " << paquete.getDestinoRouter() << " y origen en " << paquete.getOrigenRouter() << "\n";
                         }
-                    //}
                 }
-                    /**
-                    * Mientras la cola del vecino no este vacia y la cantidad de enviados 
-                    * sea menor al ancho de banda de ese destino, se envian
-                    * los paquetes. 
-                    */
-                //vecinos.push_back({vecino, anchoDeBanda})
-                
+
+                /**
+                * Mientras la cola del vecino no este vacia y la cantidad de enviados 
+                * sea menor al ancho de banda de ese destino, se envian
+                * los paquetes. 
+                */
                 for (auto& colaVecino : router.colasPorVecino) {
                     for (Router& routerD : routers){
                         if (colaVecino.first == routerD.idR) {
                             while (!colaVecino.second.empty()) {
                                 routerD.colaIntercalada.push(colaVecino.second.front());
                                 colaVecino.second.pop();
-                                cout<<"Cola intercadala de Router "<<routerD.idR<<" tiene "<<routerD.colaIntercalada.size()<<" paquetes\n";
                                 cout << "Router " << router.idR << " enviando paquete a Router " << routerD.idR << ".\n";
                             }
                         }
                     }
                 }              
             }
-            
-            
+
             // Cada 2 ciclos, el administrador recalcula las rutas óptimas
             if (ciclo % 2 == 0) {
-                cout << "ya pasaron 2 ciclos/n";
+                cout << "Pasaron 2 ciclos, recalculo rutas\n";
                 recalcularRutas(routers);
             }
 
@@ -119,27 +99,48 @@ void Administrador::procesarPaquetes(vector<Router>& routers){
         
             // Verificar si hay paquetes pendientes
             hayPaquetes = false;
-
-           for(const auto& router : routers){
-                cout<<"Cola intercalada de Router "<<router.idR<<" tiene "<<router.colaIntercalada.size()<<" paquetes\n";
-            }
-            
-            
-            for (const auto& router : routers) {
+                        
+            for (auto& router : routers) {
+                /**
+                 * Si la cola intercalada de un router no está vacía,
+                 * significa que hay paquetes pendientes.
+                 */
                 if (!router.colaIntercalada.empty()) {
                     hayPaquetes = true;
                     break;
                 }
+                /**
+                 * Si alguna de
+                 * las colas por vecino de un router no está vacía,
+                 * significa que hay paquetes pendientes.
+                 */
                 for (const auto& colaVecino : router.colasPorVecino) {
                     if (!colaVecino.second.empty()) {
                         hayPaquetes = true;
                         break;
                     }
                 }
+
             }
-        
-        }
-        cout << "Simulación completada.\n";
+    }
+
+    /**
+     * Una vez que no hay paquetes pendientes, se verifica si
+     * hay paquetes en las páginas de los routers.
+     * Si hay paquetes, se reconstruye la página y se envía al terminal.
+     */
+
+     /**
+        for (auto& router : routers) {
+            for (const auto& [paginaId, paquetes] : router.paquetesPorPagina){
+                if(router.paquetesPorPagina.at(paginaId).size()!=0){
+                    router.reconstruirPagina(paginaId, router.terminales[paquetes[0].getDestinoTerminal()]);
+                }
+
+            }
+        } 
+    */
+      cout << "Simulación completada.\n";
                             
      
 }
@@ -151,6 +152,7 @@ void Administrador::procesarPaquetes(vector<Router>& routers){
  * @param destino Destino al que se quiere llegar.
  */
 void Administrador::establecerRuta(Router& router, int destino) {
+    cout << "Estableciendo ruta...\n";
     // Verificar si el router tiene vecinos
     if (!router.vecinos.empty()) {
         // Actualizar la carga de cada vecino
@@ -193,7 +195,7 @@ void Administrador::establecerRuta(Router& router, int destino) {
             }
             // Establecer la mejor opción en la tabla de enrutamiento
             router.tablaDeEnrutamiento[destino] = mejorOpcion;
-            cout << "Mejor opción para el destino Router " << destino << " es el Router vecino " << mejorOpcion <<  "\n";
+             cout << "Mejor opción para el destino Router " << destino << " es el Router vecino " << mejorOpcion <<  "\n";
         } else {
             // Si no se pudo establecer una ruta, imprimir un mensaje de error
             cerr << "Error: No se pudo establecer una ruta para el destino " << destino << "\n";

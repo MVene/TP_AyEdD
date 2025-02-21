@@ -14,6 +14,7 @@ using namespace std;
  */
 class Administrador {
 public:
+    vector<Router> routers; // Vector de routers
     // Constructor
     Administrador(vector<Router>& routers);
 

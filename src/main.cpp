@@ -27,7 +27,6 @@ int main() {
     vector<Router> routers;
     for (int i = 0; i < cantidadRouters; i++) {
         routers.emplace_back(i, cantidadTerminales); // Crear router con ID y cantidad de terminales
-        //cout << "Router " << i << " creado\n";
     }
 
 

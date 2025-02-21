@@ -1,7 +1,8 @@
 CMakeFiles/TP_AyEdD.dir/src/Pagina.cpp.o: \
- /home/lujan/TP_AyEdD/src/Pagina.cpp /usr/include/stdc-predef.h \
- /home/lujan/TP_AyEdD/src/../include/Pagina.h /usr/include/c++/13/vector \
- /usr/include/c++/13/bits/requires_hosted.h \
+ /home/mvene/Repositorios/Ayed/TP_AyEdD/src/Pagina.cpp \
+ /usr/include/stdc-predef.h \
+ /home/mvene/Repositorios/Ayed/TP_AyEdD/src/../include/Pagina.h \
+ /usr/include/c++/13/vector /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -51,8 +52,8 @@ CMakeFiles/TP_AyEdD.dir/src/Pagina.cpp.o: \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
  /usr/include/c++/13/bits/uses_allocator.h \
  /usr/include/c++/13/bits/uses_allocator_args.h /usr/include/c++/13/tuple \
- /home/lujan/TP_AyEdD/src/../include/Paquete.h /usr/include/c++/13/string \
- /usr/include/c++/13/bits/stringfwd.h \
+ /home/mvene/Repositorios/Ayed/TP_AyEdD/src/../include/Paquete.h \
+ /usr/include/c++/13/string /usr/include/c++/13/bits/stringfwd.h \
  /usr/include/c++/13/bits/char_traits.h \
  /usr/include/c++/13/bits/postypes.h /usr/include/c++/13/cwchar \
  /usr/include/wchar.h \
