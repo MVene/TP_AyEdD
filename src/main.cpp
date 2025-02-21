@@ -73,7 +73,7 @@ int main() {
     }
     cout<<"\n\n";
 
-    cout<<"Finalizacion de la red\n por ahora....";
+    cout<<"Finalizacion de la red por ahora....\n";
 
 
     cout << "--------Iniciando tráfico---------\n";

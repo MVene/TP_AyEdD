@@ -19,8 +19,8 @@ void Terminal::generarYEnviarPaginas(int cantidadRouters, int cantidadTerminales
 
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<> distPaginas(1, 5);
-    uniform_int_distribution<> distPaquetes(3, 10);
+    uniform_int_distribution<> distPaginas(1, 2);
+    uniform_int_distribution<> distPaquetes(2, 3);
     uniform_int_distribution<> distDestinoR(0, cantidadRouters -1); 
     uniform_int_distribution<> distDestinoT(0, cantidadTerminales -1 );
 
@@ -46,7 +46,7 @@ void Terminal::generarYEnviarPaginas(int cantidadRouters, int cantidadTerminales
         // Creo la pagina y la envio
         Pagina pagina(i, cantidadPaquetes, ip, destino);
         
-        cout << "Terminal " << concatenado_id_terminal << " generó la página " << i << " con " << cantidadPaquetes << " paquetes. \n";
+        cout << "Terminal " << concatenado_id_terminal << " generó la página " << i << " con " << cantidadPaquetes << " paquetes con destino a Router " << destino.first << " y Terminal " << destino.second << ".\n";
         paginasEnviadas.push(pagina); // Agrego la paginas a enviar
         tamanioPaginas[pagina.id] = cantidadPaquetes; // Almaceno el tamaño de la página
     }

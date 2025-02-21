@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/mvene/Repositorios/Ayed/TP_AyEdD/include
+CXX_INCLUDES = -I/home/lujan/TP_AyEdD/include
 
 CXX_FLAGS =  -g -std=gnu++17
 

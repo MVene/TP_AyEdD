@@ -14,6 +14,14 @@ int Paquete::getId() const {
     return id;
 }
 
+pair<int,int> Paquete::getOrigen() const {
+    return origen;
+}
+
+pair<int,int> Paquete::getDestino() const {
+    return destino;
+}
+
 int Paquete::getOrigenRouter() const {
     return origen.first;
 }
@@ -25,13 +33,7 @@ int Paquete::getOrigenTerminal() const {
 int Paquete::getDestinoRouter() const {
     return destino.first;
 }
-pair<int,int> Paquete::getOrigen() const {
-    return origen;
-}
 
-pair<int,int> Paquete::getDestino() const {
-    return destino;
-}
 int Paquete::getDestinoTerminal() const {
     return destino.second;
 }
@@ -48,7 +50,6 @@ int Paquete::getPaginaId() const {
 void Paquete::setId(int id) {
     this->id = id;
 }
-
 
 void Paquete::setContenido(const string& contenido) {
     this->contenido = contenido;

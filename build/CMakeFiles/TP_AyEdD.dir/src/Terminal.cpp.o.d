@@ -1,7 +1,6 @@
 CMakeFiles/TP_AyEdD.dir/src/Terminal.cpp.o: \
- /home/mvene/Repositorios/Ayed/TP_AyEdD/src/Terminal.cpp \
- /usr/include/stdc-predef.h \
- /home/mvene/Repositorios/Ayed/TP_AyEdD/src/../include/Terminal.h \
+ /home/lujan/TP_AyEdD/src/Terminal.cpp /usr/include/stdc-predef.h \
+ /home/lujan/TP_AyEdD/src/../include/Terminal.h \
  /usr/include/c++/13/iostream /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
@@ -199,5 +198,5 @@ CMakeFiles/TP_AyEdD.dir/src/Terminal.cpp.o: \
  /usr/include/c++/13/bits/enable_special_members.h \
  /usr/include/c++/13/bits/node_handle.h \
  /usr/include/c++/13/bits/erase_if.h \
- /home/mvene/Repositorios/Ayed/TP_AyEdD/src/../include/Pagina.h \
- /home/mvene/Repositorios/Ayed/TP_AyEdD/src/../include/Paquete.h
+ /home/lujan/TP_AyEdD/src/../include/Pagina.h \
+ /home/lujan/TP_AyEdD/src/../include/Paquete.h

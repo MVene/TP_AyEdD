@@ -8,12 +8,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/mvene/Repositorios/Ayed/TP_AyEdD/src/Administrador.cpp" "CMakeFiles/TP_AyEdD.dir/src/Administrador.cpp.o" "gcc" "CMakeFiles/TP_AyEdD.dir/src/Administrador.cpp.o.d"
-  "/home/mvene/Repositorios/Ayed/TP_AyEdD/src/Pagina.cpp" "CMakeFiles/TP_AyEdD.dir/src/Pagina.cpp.o" "gcc" "CMakeFiles/TP_AyEdD.dir/src/Pagina.cpp.o.d"
-  "/home/mvene/Repositorios/Ayed/TP_AyEdD/src/Paquete.cpp" "CMakeFiles/TP_AyEdD.dir/src/Paquete.cpp.o" "gcc" "CMakeFiles/TP_AyEdD.dir/src/Paquete.cpp.o.d"
-  "/home/mvene/Repositorios/Ayed/TP_AyEdD/src/Router.cpp" "CMakeFiles/TP_AyEdD.dir/src/Router.cpp.o" "gcc" "CMakeFiles/TP_AyEdD.dir/src/Router.cpp.o.d"
-  "/home/mvene/Repositorios/Ayed/TP_AyEdD/src/Terminal.cpp" "CMakeFiles/TP_AyEdD.dir/src/Terminal.cpp.o" "gcc" "CMakeFiles/TP_AyEdD.dir/src/Terminal.cpp.o.d"
-  "/home/mvene/Repositorios/Ayed/TP_AyEdD/src/main.cpp" "CMakeFiles/TP_AyEdD.dir/src/main.cpp.o" "gcc" "CMakeFiles/TP_AyEdD.dir/src/main.cpp.o.d"
+  "/home/lujan/TP_AyEdD/src/Administrador.cpp" "CMakeFiles/TP_AyEdD.dir/src/Administrador.cpp.o" "gcc" "CMakeFiles/TP_AyEdD.dir/src/Administrador.cpp.o.d"
+  "/home/lujan/TP_AyEdD/src/Pagina.cpp" "CMakeFiles/TP_AyEdD.dir/src/Pagina.cpp.o" "gcc" "CMakeFiles/TP_AyEdD.dir/src/Pagina.cpp.o.d"
+  "/home/lujan/TP_AyEdD/src/Paquete.cpp" "CMakeFiles/TP_AyEdD.dir/src/Paquete.cpp.o" "gcc" "CMakeFiles/TP_AyEdD.dir/src/Paquete.cpp.o.d"
+  "/home/lujan/TP_AyEdD/src/Router.cpp" "CMakeFiles/TP_AyEdD.dir/src/Router.cpp.o" "gcc" "CMakeFiles/TP_AyEdD.dir/src/Router.cpp.o.d"
+  "/home/lujan/TP_AyEdD/src/Terminal.cpp" "CMakeFiles/TP_AyEdD.dir/src/Terminal.cpp.o" "gcc" "CMakeFiles/TP_AyEdD.dir/src/Terminal.cpp.o.d"
+  "/home/lujan/TP_AyEdD/src/main.cpp" "CMakeFiles/TP_AyEdD.dir/src/main.cpp.o" "gcc" "CMakeFiles/TP_AyEdD.dir/src/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -1,4 +1,4 @@
-# Install script for directory: /home/mvene/Repositorios/Ayed/TP_AyEdD
+# Install script for directory: /home/lujan/TP_AyEdD
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/mvene/Repositorios/Ayed/TP_AyEdD/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/lujan/TP_AyEdD/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
