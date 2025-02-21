@@ -11,7 +11,10 @@ using namespace std;
 class Administrador {
 public:
     // Recalcular rutas de todos los routers
-    void recalcularRutas(vector<Router*>& routers);
+    Administrador(vector<Router>& routers);
+    void recalcularRutas(vector<Router>& routers);
+    void procesarPaquetes(vector<Router>& routers);
+    void establecerRuta(Router& router, int destino) ;
 };
 
 #endif
